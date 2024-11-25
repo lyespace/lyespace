@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>SRC常用信息收集方法 | Lye's blog</title><meta name="author" content="Lye"><meta name="copyright" content="Lye"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="SRC收集资产常用的工具以及使用方法1、企业资产收集一般拿到目标资产如果是公司名称的时候可以通过企业信息去获取更多信息。 1、可以使用：天眼查、企查查、爱企查、小蓝本等工具查询。 结合知识产权下的信息进行收集，主要去收集域名。  2、企业图谱，通过控股比例去收集子公司。  3、通过微信搜索公司名称查看涉及到的小程序等资产，找到小程序之后可以看用户协议、隐私政策中的归属使用方确定资产的是否正确。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SRC常用信息收集方法">
+<meta property="og:url" content="http://example.com/2024/11/25/SRC%E5%B8%B8%E7%94%A8%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95/SRC%E5%B8%B8%E7%94%A8%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Lye&#39;s blog">
+<meta property="og:description" content="SRC收集资产常用的工具以及使用方法1、企业资产收集一般拿到目标资产如果是公司名称的时候可以通过企业信息去获取更多信息。 1、可以使用：天眼查、企查查、爱企查、小蓝本等工具查询。 结合知识产权下的信息进行收集，主要去收集域名。  2、企业图谱，通过控股比例去收集子公司。  3、通过微信搜索公司名称查看涉及到的小程序等资产，找到小程序之后可以看用户协议、隐私政策中的归属使用方确定资产的是否正确。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/2.jpg">
+<meta property="article:published_time" content="2024-11-25T02:58:00.000Z">
+<meta property="article:modified_time" content="2024-11-25T02:59:38.361Z">
+<meta property="article:author" content="Lye">
+<meta property="article:tag" content="漏洞挖掘">
+<meta property="article:tag" content="资产收集">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/2.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/11/25/SRC%E5%B8%B8%E7%94%A8%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95/SRC%E5%B8%B8%E7%94%A8%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        if (name && globalFn[key][name]) return
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SRC常用信息收集方法',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-11-25 10:59:38'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/2.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/background.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Lye's blog</span></a><a class="nav-page-title" href="/"><span class="site-name">SRC常用信息收集方法</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">SRC常用信息收集方法</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-11-25T02:58:00.000Z" title="发表于 2024-11-25 10:58:00">2024-11-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-11-25T02:59:38.361Z" title="更新于 2024-11-25 10:59:38">2024-11-25</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="SRC收集资产常用的工具以及使用方法"><a href="#SRC收集资产常用的工具以及使用方法" class="headerlink" title="SRC收集资产常用的工具以及使用方法"></a>SRC收集资产常用的工具以及使用方法</h1><h1 id="1、企业资产收集"><a href="#1、企业资产收集" class="headerlink" title="1、企业资产收集"></a>1、企业资产收集</h1><p>一般拿到目标资产如果是公司名称的时候可以通过企业信息去获取更多信息。</p>
+<p>1、可以使用：天眼查、企查查、爱企查、小蓝本等工具查询。</p>
+<p>结合知识产权下的信息进行收集，主要去收集域名。</p>
+<p><img src="/image-20241125090226055-17325035736853.png" alt="image-20241125090226055"></p>
+<p>2、企业图谱，通过控股比例去收集子公司。</p>
+<p><img src="/image-20241125090504825-17325035736841.png" alt="image-20241125090504825"></p>
+<p>3、通过微信搜索公司名称查看涉及到的小程序等资产，找到小程序之后可以看用户协议、隐私政策中的归属使用方确定资产的是否正确。</p>
+<p><img src="/image-20241125090719445-17325035736852.png" alt="image-20241125090719445"></p>
+<p><img src="/image-20241125090833987-17325035736854.png" alt="image-20241125090833987"></p>
+<h1 id="2、子域名收集以及过滤"><a href="#2、子域名收集以及过滤" class="headerlink" title="2、子域名收集以及过滤"></a>2、子域名收集以及过滤</h1><p>1.使用灯塔扫描器或者在线扫描器，如下：</p>
+<ul>
+<li><p>灯塔ARL：直接添加任务即可进行扫描</p>
+<p><img src="/image-20241125092059940-17325035736855.png" alt="image-20241125092059940"></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zh.subdomains.whoisxmlapi.com/lookup">子域查询 |基于网络的子域名扫描器 | WhoisXML API</a>：注册即可使用</p>
+</li>
+</ul>
+<p><img src="/image-20241125092429946-17325035736858.png" alt="image-20241125092429946"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://pentest-tools.com/information-gathering/find-subdomains-of-domain">Free subdomain finder online 🛡️ find subdomains of domain</a>：注册扫描，导出子域名</li>
+</ul>
+<p><img src="/image-20241125092851324-173250357368510.png" alt="image-20241125092851324"></p>
+<p><img src="/image-20241125093204201-17325035736859.png" alt="image-20241125093204201"></p>
+<p>2、将收集的子域名，去重之后放到Oneforall里面去爆破生成，如下：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/shmilylty/OneForAll">shmilylty&#x2F;OneForAll: OneForAll是一款功能强大的子域收集工具</a></p>
+<p><img src="/image-20241125093504624-17325035736856.png" alt="image-20241125093504624"></p>
+<p>3、收集之后，我们再经过httpx工具进行过滤，得到我们需要的数据，如下：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/lyespace/Security_Tools/blob/master/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%26%E8%BF%87%E6%BB%A4/httpx_1.2.1_windows_amd64.zip">Security_Tools&#x2F;信息收集&amp;过滤&#x2F;httpx_1.2.1_windows_amd64.zip at master · lyespace&#x2F;Security_Tools</a></p>
+<p><img src="/image-20241125095048080-17325035736857.png" alt="image-20241125095048080"></p>
+<h1 id="3、打开收集的资产"><a href="#3、打开收集的资产" class="headerlink" title="3、打开收集的资产"></a>3、打开收集的资产</h1><p><img src="/image-20241125105550983-173250357368511.png" alt="image-20241125105550983"></p>
+<p>BP一开，直接开测！！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Lye</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/11/25/SRC%E5%B8%B8%E7%94%A8%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95/SRC%E5%B8%B8%E7%94%A8%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95/">http://example.com/2024/11/25/SRC%E5%B8%B8%E7%94%A8%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95/SRC%E5%B8%B8%E7%94%A8%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Lye's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/">漏洞挖掘</a><a class="post-meta__tags" href="/tags/%E8%B5%84%E4%BA%A7%E6%94%B6%E9%9B%86/">资产收集</a></div><div class="post-share"><div class="social-share" data-image="/img/2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="next-post pull-full" href="/2024/11/17/%E5%8F%96%E5%B7%A7%E4%BD%BF%E7%94%A8%E5%9C%A8%E7%BA%BFweb%E9%9D%B6%E5%9C%BA%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" title="取巧使用在线web靶场进行渗透测试"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">取巧使用在线web靶场进行渗透测试</div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a href="/2024/10/17/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E4%B8%ADJS%E9%80%86%E5%90%91/" title="漏洞挖掘中的 JS 逆向"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-17</div><div class="title">漏洞挖掘中的 JS 逆向</div></div></a><a href="/2024/11/05/%E4%B8%8D%E5%B8%B8%E8%A7%81%E4%B8%9A%E5%8A%A1%E7%9A%84%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/" title="不常见业务的逻辑漏洞"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-05</div><div class="title">不常见业务的逻辑漏洞</div></div></a><a href="/2024/11/07/URL-CSRF%E6%8C%96%E6%8E%98/" title="URL+CSRF挖掘"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-07</div><div class="title">URL+CSRF挖掘</div></div></a><a href="/2024/11/17/%E5%8F%96%E5%B7%A7%E4%BD%BF%E7%94%A8%E5%9C%A8%E7%BA%BFweb%E9%9D%B6%E5%9C%BA%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" title="取巧使用在线web靶场进行渗透测试"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-17</div><div class="title">取巧使用在线web靶场进行渗透测试</div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info is-center"><div class="avatar-img"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Lye</div><div class="author-info-description">沧海一粟的时间，绽放生命之花</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/lyespace" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2972867963@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://blog.csdn.net/2203_75523573?type=blog" target="_blank" title="Blog"><i class="fas fa-blog" style="color: #ff5722;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">管理自己的时间，把握自己的命运</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SRC%E6%94%B6%E9%9B%86%E8%B5%84%E4%BA%A7%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">SRC收集资产常用的工具以及使用方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E3%80%81%E4%BC%81%E4%B8%9A%E8%B5%84%E4%BA%A7%E6%94%B6%E9%9B%86"><span class="toc-number">2.</span> <span class="toc-text">1、企业资产收集</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2%E3%80%81%E5%AD%90%E5%9F%9F%E5%90%8D%E6%94%B6%E9%9B%86%E4%BB%A5%E5%8F%8A%E8%BF%87%E6%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">2、子域名收集以及过滤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3%E3%80%81%E6%89%93%E5%BC%80%E6%94%B6%E9%9B%86%E7%9A%84%E8%B5%84%E4%BA%A7"><span class="toc-number">4.</span> <span class="toc-text">3、打开收集的资产</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/25/SRC%E5%B8%B8%E7%94%A8%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95/SRC%E5%B8%B8%E7%94%A8%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95/" title="SRC常用信息收集方法">SRC常用信息收集方法</a><time datetime="2024-11-25T02:58:00.000Z" title="发表于 2024-11-25 10:58:00">2024-11-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/17/%E5%8F%96%E5%B7%A7%E4%BD%BF%E7%94%A8%E5%9C%A8%E7%BA%BFweb%E9%9D%B6%E5%9C%BA%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" title="取巧使用在线web靶场进行渗透测试">取巧使用在线web靶场进行渗透测试</a><time datetime="2024-11-17T13:02:54.000Z" title="发表于 2024-11-17 21:02:54">2024-11-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/07/URL-CSRF%E6%8C%96%E6%8E%98/" title="URL+CSRF挖掘">URL+CSRF挖掘</a><time datetime="2024-11-07T00:04:57.000Z" title="发表于 2024-11-07 08:04:57">2024-11-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/05/%E4%B8%8D%E5%B8%B8%E8%A7%81%E4%B8%9A%E5%8A%A1%E7%9A%84%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/" title="不常见业务的逻辑漏洞">不常见业务的逻辑漏洞</a><time datetime="2024-11-05T01:52:59.000Z" title="发表于 2024-11-05 09:52:59">2024-11-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/10/27/%E6%B1%89%E5%8C%96CTF%E5%B9%B3%E5%8F%B0%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E5%8F%AF%E6%8C%81%E7%BB%AD%E8%BF%90%E8%A1%8C/%E6%B1%89%E5%8C%96CTF%E5%B9%B3%E5%8F%B0%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E5%8F%AF%E6%8C%81%E7%BB%AD%E8%BF%90%E8%A1%8C/" title="汉化CTF平台搭建以及可持续运行">汉化CTF平台搭建以及可持续运行</a><time datetime="2024-10-27T12:12:50.000Z" title="发表于 2024-10-27 20:12:50">2024-10-27</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By Lye</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
