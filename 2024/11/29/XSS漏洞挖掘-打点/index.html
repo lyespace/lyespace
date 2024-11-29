@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>XSS漏洞挖掘--打点 | Lye's blog</title><meta name="author" content="Lye"><meta name="copyright" content="Lye"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文章主要介绍xss自动化打点的步骤，更适合外海的xss漏洞挖掘，因为奖金会更加的丰厚。在下面的步骤，进行数据处理，可以根据自己的经验进行处理。人工智能，越人工越智能(#^.^#) 1、获取站点的URLS URL提取器    Findsomething   将两个插件的数据进行整合，保存在urls.txt中，接下来对整合的数据进行过滤 2、提取路径和参数使用unfurl工具对该数据进行处理：Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XSS漏洞挖掘--打点">
+<meta property="og:url" content="http://example.com/2024/11/29/XSS%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98-%E6%89%93%E7%82%B9/index.html">
+<meta property="og:site_name" content="Lye&#39;s blog">
+<meta property="og:description" content="本文章主要介绍xss自动化打点的步骤，更适合外海的xss漏洞挖掘，因为奖金会更加的丰厚。在下面的步骤，进行数据处理，可以根据自己的经验进行处理。人工智能，越人工越智能(#^.^#) 1、获取站点的URLS URL提取器    Findsomething   将两个插件的数据进行整合，保存在urls.txt中，接下来对整合的数据进行过滤 2、提取路径和参数使用unfurl工具对该数据进行处理：Git">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/2.jpg">
+<meta property="article:published_time" content="2024-11-29T05:10:16.000Z">
+<meta property="article:modified_time" content="2024-11-29T05:41:26.491Z">
+<meta property="article:author" content="Lye">
+<meta property="article:tag" content="常规漏洞">
+<meta property="article:tag" content="漏洞挖掘本文章">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/2.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/11/29/XSS%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98-%E6%89%93%E7%82%B9/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        if (name && globalFn[key][name]) return
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'XSS漏洞挖掘--打点',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-11-29 13:41:26'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/2.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/background.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Lye's blog</span></a><a class="nav-page-title" href="/"><span class="site-name">XSS漏洞挖掘--打点</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">XSS漏洞挖掘--打点</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-11-29T05:10:16.000Z" title="发表于 2024-11-29 13:10:16">2024-11-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-11-29T05:41:26.491Z" title="更新于 2024-11-29 13:41:26">2024-11-29</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本文章主要介绍xss自动化打点的步骤，更适合外海的xss漏洞挖掘，因为奖金会更加的丰厚。在下面的步骤，进行数据处理，可以根据自己的经验进行处理。人工智能，越人工越智能(#^.^#)</p>
+<h1 id="1、获取站点的URLS"><a href="#1、获取站点的URLS" class="headerlink" title="1、获取站点的URLS"></a>1、获取站点的URLS</h1><ul>
+<li>URL提取器</li>
+</ul>
+<p><img src="/img/image-20241129132454572.png"></p>
+<ul>
+<li>Findsomething</li>
+</ul>
+<p><img src="/img/image-20241129132506448.png"></p>
+<p>将两个插件的数据进行整合，保存在urls.txt中，接下来对整合的数据进行过滤</p>
+<h1 id="2、提取路径和参数"><a href="#2、提取路径和参数" class="headerlink" title="2、提取路径和参数"></a>2、提取路径和参数</h1><p>使用unfurl工具对该数据进行处理：<a target="_blank" rel="noopener" href="https://github.com/tomnomnom/unfurl">GitHub - tomnomnom&#x2F;unfurl: Pull out bits of URLs provided on stdin</a></p>
+<ul>
+<li>提取路径<br>cat urls.txt | .&#x2F;unfurl paths | sed ‘s&#x2F;^.&#x2F;&#x2F;‘| sort -u| egrep -iv “.(jpg|swf|mp3|mp4|m3u8|ts|jpeg|gif|css|tiff|png|ttf|woff|woff2|ico|pdf|svg|txt|js)” | tee paths.txt</li>
+<li>提取参数<br>cat urls.txt |.&#x2F;unfurl keys |sort -u |tee params.txt</li>
+</ul>
+<h1 id="3、xss-fuzz-py脚本处理"><a href="#3、xss-fuzz-py脚本处理" class="headerlink" title="3、xss-fuzz.py脚本处理"></a>3、xss-fuzz.py脚本处理</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request, parse</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取文件中的爹数</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;params.txt&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    parameters = [line.strip() <span class="keyword">for</span> line <span class="keyword">in</span> f]</span><br><span class="line"><span class="comment"># 每组参数的数量</span></span><br><span class="line">n = <span class="number">50</span></span><br><span class="line"><span class="comment"># XSS payload</span></span><br><span class="line">xss = <span class="string">&quot;1z%27z%22z%3cz%2fz123%5cx&quot;</span></span><br><span class="line">out = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> num, parameter <span class="keyword">in</span> <span class="built_in">enumerate</span>(parameters, start=<span class="number">1</span>):</span><br><span class="line">    current_num = (num - <span class="number">1</span>) % n + <span class="number">1</span>  <span class="comment"># 将 mm的范围调整为 1 到 n</span></span><br><span class="line">    out += <span class="string">f&quot;<span class="subst">&#123;parameter&#125;</span>=<span class="subst">&#123;xss&#125;</span><span class="subst">&#123;current_num&#125;</span>&amp;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> num % n == <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span>(out[:-<span class="number">1</span>])</span><br><span class="line">        out = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="comment"># 打印剩余的参数</span></span><br><span class="line"><span class="keyword">if</span> out:</span><br><span class="line">    <span class="built_in">print</span>(out[:-<span class="number">1</span>])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>python3&#x2F;python fuzz.py | tee payload.txt<br><img src="/img/image-20241129132520395.png"></li>
+</ul>
+<h1 id="4、BP-intruder模块爆破"><a href="#4、BP-intruder模块爆破" class="headerlink" title="4、BP-intruder模块爆破"></a>4、BP-intruder模块爆破</h1><ul>
+<li>将目标站点放到intruder</li>
+</ul>
+<p><img src="/img/image-20241129132844338.png"></p>
+<ul>
+<li>配置位置以及参数</li>
+</ul>
+<p><img src="/img/image-20241129132924545.png"></p>
+<ul>
+<li>构建payload<br>payload1：路径<br>使用我们上面生成的paths.txt<br><img src="/img/image-20241129132934097.png"><br>paylaod2：参数<br>使用我们上面生成的paylaod.txt<br><img src="/img/image-20241129132941209.png"></li>
+</ul>
+<h1 id="5、观察结果"><a href="#5、观察结果" class="headerlink" title="5、观察结果"></a>5、观察结果</h1><p><img src="/img/image-20241129132953116.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Lye</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/11/29/XSS%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98-%E6%89%93%E7%82%B9/">http://example.com/2024/11/29/XSS%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98-%E6%89%93%E7%82%B9/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Lye's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B8%B8%E8%A7%84%E6%BC%8F%E6%B4%9E/">常规漏洞</a><a class="post-meta__tags" href="/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E6%9C%AC%E6%96%87%E7%AB%A0/">漏洞挖掘本文章</a></div><div class="post-share"><div class="social-share" data-image="/img/2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="next-post pull-full" href="/2024/11/25/SRC%E5%B8%B8%E7%94%A8%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95/" title="SRC常用信息收集方法"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SRC常用信息收集方法</div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info is-center"><div class="avatar-img"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Lye</div><div class="author-info-description">沧海一粟的时间，绽放生命之花</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/lyespace" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2972867963@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://blog.csdn.net/2203_75523573?type=blog" target="_blank" title="Blog"><i class="fas fa-blog" style="color: #ff5722;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">管理自己的时间，把握自己的命运</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E3%80%81%E8%8E%B7%E5%8F%96%E7%AB%99%E7%82%B9%E7%9A%84URLS"><span class="toc-number">1.</span> <span class="toc-text">1、获取站点的URLS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2%E3%80%81%E6%8F%90%E5%8F%96%E8%B7%AF%E5%BE%84%E5%92%8C%E5%8F%82%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">2、提取路径和参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3%E3%80%81xss-fuzz-py%E8%84%9A%E6%9C%AC%E5%A4%84%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">3、xss-fuzz.py脚本处理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4%E3%80%81BP-intruder%E6%A8%A1%E5%9D%97%E7%88%86%E7%A0%B4"><span class="toc-number">4.</span> <span class="toc-text">4、BP-intruder模块爆破</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5%E3%80%81%E8%A7%82%E5%AF%9F%E7%BB%93%E6%9E%9C"><span class="toc-number">5.</span> <span class="toc-text">5、观察结果</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/29/XSS%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98-%E6%89%93%E7%82%B9/" title="XSS漏洞挖掘--打点">XSS漏洞挖掘--打点</a><time datetime="2024-11-29T05:10:16.000Z" title="发表于 2024-11-29 13:10:16">2024-11-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/25/SRC%E5%B8%B8%E7%94%A8%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95/" title="SRC常用信息收集方法">SRC常用信息收集方法</a><time datetime="2024-11-25T02:58:00.000Z" title="发表于 2024-11-25 10:58:00">2024-11-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/17/%E5%8F%96%E5%B7%A7%E4%BD%BF%E7%94%A8%E5%9C%A8%E7%BA%BFweb%E9%9D%B6%E5%9C%BA%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" title="取巧使用在线web靶场进行渗透测试">取巧使用在线web靶场进行渗透测试</a><time datetime="2024-11-17T13:02:54.000Z" title="发表于 2024-11-17 21:02:54">2024-11-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/07/URL-CSRF%E6%8C%96%E6%8E%98/" title="URL+CSRF挖掘">URL+CSRF挖掘</a><time datetime="2024-11-07T00:04:57.000Z" title="发表于 2024-11-07 08:04:57">2024-11-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/05/%E4%B8%8D%E5%B8%B8%E8%A7%81%E4%B8%9A%E5%8A%A1%E7%9A%84%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/" title="不常见业务的逻辑漏洞">不常见业务的逻辑漏洞</a><time datetime="2024-11-05T01:52:59.000Z" title="发表于 2024-11-05 09:52:59">2024-11-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By Lye</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
